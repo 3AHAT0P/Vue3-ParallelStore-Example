@@ -16,7 +16,6 @@ export const ref = (
     },
     set value(newValue) {
       _value = newValue;
-      console.log('!!!!!!!!!!', key, _value, context.portList);
       sendToPorts(context.portList, {
         op: 'SET',
         storeName,

@@ -10,9 +10,7 @@ export const useCounterStore = defineStore(
   () => ({ counter: 0 }),
   {
     incrementAction(state: CounterStoreState, value = 1) {
-      console.log('!!!!!!!!!!!!!!!', state);
       state.counter.value += value;
-      console.log(state.counter.value);
     },
     incrementLaterAction(state: CounterStoreState, value = 1) {
       setTimeout(() => {

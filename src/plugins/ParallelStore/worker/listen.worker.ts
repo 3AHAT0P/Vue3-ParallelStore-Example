@@ -17,7 +17,6 @@ export const listen = (
       'message',
       (event: MessageEvent<MessageToWorkerData>) => {
         const { op, storeName = 'DEFAULT', key } = event.data;
-        console.log('MESSAGE IN WORKER', event.data);
 
         if (!(storeName in context.stores)) {
           context.stores[storeName] = { data: {}, actions: {} };
@@ -48,18 +47,14 @@ export const listen = (
           }
         } else if (op === 'RUN_ACTION') {
           const { args } = event.data;
-          console.log(
-            '@@@@@@@@@@',
-            key,
-            storeName,
-            currentStore,
-            currentStore.actions[key]
-          );
-          if (key in currentStore.actions)
+
+          if (key in currentStore.actions) {
             currentStore.actions[key](currentStore.data, ...args);
+          }
         } else if (op === 'CREATE_ACTION') {
           if (!(key in currentStore.actions)) {
             const { source } = event.data;
+
             if (source.startsWith('function')) {
               currentStore.actions[key] = Function(
                 `"use strict";return(${source})`
@@ -70,7 +65,6 @@ export const listen = (
               )();
             }
           }
-          console.log(currentStore.actions);
         }
       }
     );
